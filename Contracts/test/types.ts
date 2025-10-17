@@ -17,3 +17,11 @@ export interface InteractionOutcome {
     newIntelligence: bigint;
     memorySnippet: string;
 }
+
+export interface InteractionContext {
+  action: bigint;
+  target: string;
+  value1: bigint;
+  value2: bigint;
+  memo: string;
+}

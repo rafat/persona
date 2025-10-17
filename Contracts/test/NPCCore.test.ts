@@ -20,6 +20,7 @@ describe("NPCCore Contract", async function () {
       750, // Intelligence
       800, // Aggression
       200, // Sociability
+      0, // Faction (GUARD)
     ]);
     
     await publicClient.waitForTransactionReceipt({ hash: tx });
@@ -50,6 +51,7 @@ describe("NPCCore Contract", async function () {
       600, // Intelligence
       300, // Aggression
       700, // Sociability
+      1, // Faction (MERCHANT)
     ]);
     await publicClient.waitForTransactionReceipt({ hash: tx });
 
@@ -60,6 +62,7 @@ describe("NPCCore Contract", async function () {
       700, // Intelligence
       800, // Aggression
       100, // Sociability
+      0, // Faction (GUARD)
     ]);
     await publicClient.waitForTransactionReceipt({ hash: tx });
 
@@ -83,6 +86,7 @@ describe("NPCCore Contract", async function () {
       500, // Intelligence
       200, // Aggression
       800, // Sociability
+      1, // Faction (MERCHANT)
     ]);
     await publicClient.waitForTransactionReceipt({ hash: tx });
 
@@ -107,6 +111,7 @@ describe("NPCCore Contract", async function () {
       600, // Intelligence
       400, // Aggression
       600, // Sociability
+      2, // Faction (VILLAGER)
     ]);
     await publicClient.waitForTransactionReceipt({ hash: tx });
 

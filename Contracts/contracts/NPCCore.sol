@@ -8,6 +8,8 @@ contract NPCCore is Ownable {
     uint256 private _npcIdCounter;
     address public learningEngineAddress;
 
+    enum Faction { GUARD, MERCHANT, VILLAGER, ELDER, FARMER }
+
     struct NPC {
         uint256 id;
         string name;
@@ -18,6 +20,7 @@ contract NPCCore is Ownable {
         uint256 experiencePoints;
         uint256 lastInteraction;
         bool isActive;
+        Faction faction;          // NPC's faction
     }
 
     // NEW: A struct to bundle all state changes from an interaction.
@@ -68,7 +71,8 @@ contract NPCCore is Ownable {
         uint8 _personality,
         uint16 _intelligence,
         uint16 _aggression,
-        uint16 _sociability
+        uint16 _sociability,
+        Faction _faction
     ) onlyOwner external returns (uint256) {
         uint256 id = _npcIdCounter;
         require(_intelligence <= 1000 && _aggression <= 1000 && _sociability <= 1000, "Traits must be 0-1000");
@@ -82,7 +86,8 @@ contract NPCCore is Ownable {
             sociability: _sociability,
             experiencePoints: 0,
             lastInteraction: block.timestamp,
-            isActive: true
+            isActive: true,
+            faction: _faction
         });
 
         _npcIdCounter++;
@@ -91,7 +96,7 @@ contract NPCCore is Ownable {
         return id;
     }
 
-    // NEW: The primary function for applying all state changes at once.
+    // The primary function for applying all state changes at once.
     // This is called by the InteractionTracker after getting calculations from the LearningEngine.
     function applyInteractionOutcome(
         uint256 npcId,
@@ -120,6 +125,10 @@ contract NPCCore is Ownable {
         return npcs[npcId];
     }
 
+    function getNPCFaction(uint256 npcId) external view returns (Faction) {
+        return npcs[npcId].faction;
+    }
+/*
     function updateTraits(
         uint256 npcId,
         uint16 newIntelligence,
@@ -141,7 +150,7 @@ contract NPCCore is Ownable {
 
         emit MemoryRecorded(npcId, memorySnippet);
     }
-
+*/
     function setRelationship(uint256 npcId, address player, uint16 score) onlyLearningEngine external onlyActiveNPC(npcId) {
         playerRelationships[npcId][player] = _clamp(score, 0, 1000);
     }

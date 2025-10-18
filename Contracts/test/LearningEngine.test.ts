@@ -23,12 +23,12 @@ describe("LearningEngine Contract", async function () {
     await publicClient.waitForTransactionReceipt({ hash: createNpcTx2 });
 
     // Test Greet action with friendly NPC
-    let decision = await learningEngine.read.makeDecision([
+    let decision = (await learningEngine.read.makeDecision([
       0n, // NPC ID
       getAddress(player.account.address),
       0, // Greet action
       0,  // contextValue
-    ]);
+    ])) as any;
     
     // Viem returns values as numbers or strings depending on the type
     assert.ok(typeof decision.responseType === 'number', `Expected responseType type to be number, got ${typeof decision.responseType}`);
@@ -37,22 +37,22 @@ describe("LearningEngine Contract", async function () {
     assert.ok(typeof decision.contextData === 'string', `Expected contextData type to be string, got ${typeof decision.contextData}`);
 
     // Test Attack action with hostile NPC (should result in Attack response)
-    decision = await learningEngine.read.makeDecision([
+    decision = (await learningEngine.read.makeDecision([
       1n, // NPC ID
       getAddress(player.account.address),
       2, // Attack action
       0,  // contextValue
-    ]);
+    ])) as any;
     
     assert.ok(typeof decision.responseType === 'number', `Expected responseType type to be number, got ${typeof decision.responseType}`);
 
     // Test Help action with friendly NPC (should result in Help response)
-    decision = await learningEngine.read.makeDecision([
+    decision = (await learningEngine.read.makeDecision([
       0n, // NPC ID
       getAddress(player.account.address),
       3, // Help action
       0,  // contextValue
-    ]);
+    ])) as any;
     
     assert.ok(typeof decision.responseType === 'number', `Expected responseType type to be number, got ${typeof decision.responseType}`);
     assert.ok(decision.intensity >= 0, `Third test - intensity should be >= 0, got ${decision.intensity}`);

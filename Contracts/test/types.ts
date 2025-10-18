@@ -25,3 +25,16 @@ export interface InteractionContext {
   value2: bigint;
   memo: string;
 }
+
+// Additional types for contract return values
+export interface Decision {
+  responseType: number;
+  intensity: number;
+  contextData: string;
+}
+
+export interface PlayerQuest {
+  status: bigint;
+  progress: bigint;
+  acceptedAt: bigint;
+}

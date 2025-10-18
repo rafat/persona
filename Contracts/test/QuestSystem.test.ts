@@ -52,7 +52,7 @@ describe("QuestSystem Contract", async function () {
     await publicClient.waitForTransactionReceipt({ hash: tx });
 
     // Check that quest has progressed
-    const playerQuestStatus = await questSystem.read.getPlayerQuestStatus([player.account.address, 0n]);
+    const playerQuestStatus = (await questSystem.read.getPlayerQuestStatus([player.account.address, 0n])) as any;
     assert.ok(playerQuestStatus.status >= 2n); // Should be ACTIVE (2) or higher (COMPLETED/CLAIMED)
 
     // Claim Reward

@@ -1,7 +1,9 @@
 import type { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox-viem";
 import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
-import { configVariable } from "hardhat/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const config: HardhatUserConfig = {
   plugins: [hardhatToolboxViemPlugin],
@@ -38,17 +40,11 @@ const config: HardhatUserConfig = {
       type: "edr-simulated",
       chainType: "op",
     },
-    sepolia: {
-      type: "http",
-      chainType: "l1",
-      url: configVariable("SEPOLIA_RPC_URL"),
-      accounts: [configVariable("PRIVATE_KEY")],
-    },
     somnia: {
       type: "http",
       chainType: "l1",
       url: "https://dream-rpc.somnia.network",
-      accounts: [configVariable("PRIVATE_KEY")],
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
   },
 };

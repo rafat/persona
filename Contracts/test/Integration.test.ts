@@ -53,7 +53,7 @@ describe("Full Integration Test", async function () {
     await publicClient.waitForTransactionReceipt({ hash: tx });
 
     // Check quest progress
-    const questProgress = await questSystem.read.getPlayerQuestStatus([player.account.address, 0n]);
+    const questProgress = (await questSystem.read.getPlayerQuestStatus([player.account.address, 0n])) as any;
     assert.ok(questProgress.status >= 2n); // Should be ACTIVE (2) or higher (COMPLETED/CLAIMED)
 
     // Complete the quest by making more interactions
@@ -121,8 +121,8 @@ describe("Full Integration Test", async function () {
     assert.equal(receipt2.status, "success");
 
     // Verify the interactions updated relationships appropriately
-    const friendlyRelationship = await npcCore.read.getRelationship([0n, player.account.address]);
-    const hostileRelationship = await npcCore.read.getRelationship([1n, player.account.address]);
+    const friendlyRelationship = (await npcCore.read.getRelationship([0n, player.account.address])) as number;
+    const hostileRelationship = (await npcCore.read.getRelationship([1n, player.account.address])) as number;
     
     assert.ok(friendlyRelationship >= 0); // Should be non-negative
     assert.ok(hostileRelationship >= 0); // Should be non-negative
